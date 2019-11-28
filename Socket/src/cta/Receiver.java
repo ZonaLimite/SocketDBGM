@@ -29,7 +29,7 @@ public class Receiver implements Runnable {
     			while(st.hasMoreTokens()) {
      					cadenaMensaje = st.nextToken();
      					String[] sArray = vis.getCatalogFilter();
-     					//filtrar por catalogo de filtros
+     					//filtrar por catalogo de filtros texto
      					if((vis.getCatalogFilter())[0]=="") {
 							vis.getTextArea().append(cadenaMensaje);
 							vis.getTextArea().append(System.getProperty("line.separator"));

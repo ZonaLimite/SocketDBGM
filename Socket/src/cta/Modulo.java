@@ -2,6 +2,15 @@ package cta;
 
 public class Modulo {
 	String nombre;
+	String descripcion;
+	String mask;
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -14,6 +23,9 @@ public class Modulo {
 	public void setMask(String mask) {
 		this.mask = mask;
 	}
-	String mask;
+	public String toString() {
+		return descripcion+"("+this.getMask()+")";
+		
+	}
 	
 }

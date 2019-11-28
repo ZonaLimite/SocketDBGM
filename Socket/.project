@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/cta/resources/CaptureBDGM3.csv</name>
+			<type>1</type>
+			<location>/home/tecnico/Documentos/CaptureBDGM3.csv</location>
+		</link>
+	</linkedResources>
 </projectDescription>

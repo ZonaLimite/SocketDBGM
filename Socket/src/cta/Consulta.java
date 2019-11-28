@@ -1,10 +1,38 @@
 package cta;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-//Una consulta es un vector de modulos + filtro
-public class Consulta {
- Vector<Modulo> modulos = new Vector<Modulo>();
- String filtro;
+//Una consulta es un vector de modulos + filtro y su nombre de consulta
+public class Consulta implements Serializable{
+ String nameConsulta;
+ Vector<Modulo> modulosActivos = new Vector<Modulo>();
+ String filtro;//filtro de texto del tipo "cadena&cadenaotra|otracadena&cotraadenaotra"
  
+ public String getNameConsulta() {
+	return nameConsulta;
+}
+public void setNameConsulta(String nameConsulta) {
+	this.nameConsulta = nameConsulta;
+}
+public String getFiltro() {
+	return filtro;
+}
+public void setFiltro(String filtro) {
+	this.filtro = filtro;
+}
+
+ public Vector<Modulo> getModulosActivos() {
+	return modulosActivos;
+}
+public void setModulosActivos(Vector<Modulo> modulos) {
+	this.modulosActivos = modulos;
+}
+
+ public void insertarModuloActivo(Modulo mod) {
+	 this.getModulosActivos().add(mod);
+ }
+ public String toString() {
+	 return this.getNameConsulta();
+ }
 }
