@@ -1,6 +1,8 @@
 package cta;
 
-public class Modulo {
+import java.io.Serializable;
+
+public class Modulo implements Serializable {
 	String nombre;
 	String descripcion;
 	String mask;

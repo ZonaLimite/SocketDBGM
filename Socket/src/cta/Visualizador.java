@@ -628,12 +628,10 @@ public class Visualizador extends JFrame {
 		 	catalogoConsultas.put(nameConsulta, consulta);
 		 	combo_Consultas.removeAllItems();
 		 	filter.setText("");
-		 	Enumeration enumConsultas = catalogoConsultas.keys();
-		 	Iterator itKeys = enumConsultas.asIterator();
 		 	int index = 0;int indexComp=0;
 		 	String item;
-		 	while(itKeys.hasNext()) {
-		 		combo_Consultas.addItem(item=(String)itKeys.next());
+		 	for (Enumeration<String> enumConsultas = catalogoConsultas.keys(); enumConsultas.hasMoreElements();){
+		 		combo_Consultas.addItem(item=(String)enumConsultas.nextElement());
 		 		if(item.equals(nameConsulta))indexComp=index;
 		 		index++;
 		 	}
@@ -746,9 +744,9 @@ public class Visualizador extends JFrame {
 		           
 		        }
 	        Enumeration enumKeys = catalogoConsultas.keys();
-	        Iterator itKeys = enumKeys.asIterator();
-	        while(itKeys.hasNext()) {
-	        	combo_Consultas.addItem(catalogoConsultas.get(itKeys.next()).toString());
+	        
+	        for(Enumeration e =catalogoConsultas.keys();e.hasMoreElements(); ) {
+	        	combo_Consultas.addItem(catalogoConsultas.get(e.nextElement()).toString());
 	        	
 	        }
 	 }
