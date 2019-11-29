@@ -201,14 +201,15 @@ public class Visualizador extends JFrame {
 		});
 		button_4.setFont(new Font("Dialog", Font.PLAIN, 12));
 		
-		JLabel lblConsultas = new JLabel("FILTROS");
+		JLabel lblConsultas = new JLabel("CONSULTAS");
 		lblConsultas.setFont(new Font("Dialog", Font.BOLD, 12));
 		
 		combo_Consultas = new JComboBox();
 		combo_Consultas.addItemListener(new ItemListener() {
 			//Selecionar la nueva consulta
 			public void itemStateChanged(ItemEvent arg0) {
-				if (!(arg0.getItem()== null))refreshObjectConsulta((String)arg0.getItem());
+				
+				if (!(arg0.getItem()== null && arg0.getStateChange()==1))refreshObjectConsulta((String)arg0.getItem());
 			}
 		});
 		
@@ -234,12 +235,23 @@ public class Visualizador extends JFrame {
 		});
 		button_5.setFont(new Font("Dialog", Font.PLAIN, 12));
 		
-		JButton btnNewButton = new JButton("Filtrar por modulo");
+		JButton btnNewButton = new JButton("NEW");
+		btnNewButton.setFont(new Font("Dialog", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dialogAddModulo();
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("MODULOS ACTIVOS");
+		
+		JButton btnBorrar = new JButton("BORRAR");//mODULO ACTIVO
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				borrarModuloActual((String)combo_Consultas.getSelectedItem(),(Modulo)combo_Modulos.getSelectedItem());
+			}
+		});
+		btnBorrar.setFont(new Font("Dialog", Font.PLAIN, 12));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -255,13 +267,13 @@ public class Visualizador extends JFrame {
 											.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 											.addGap(6)
 											.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)))
-									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_panel_3.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_panel_3.createSequentialGroup()
-											.addGap(28)
-											.addComponent(btnNewButton))))
+											.addComponent(btnNewButton)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(btnBorrar))))
 								.addComponent(filter, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -269,20 +281,25 @@ public class Visualizador extends JFrame {
 								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addGap(41)
-							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+							.addGap(76)
+							.addComponent(lblNewLabel)))
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap(24, Short.MAX_VALUE)
-					.addComponent(lblConsultas)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblConsultas)
+						.addComponent(lblNewLabel))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 							.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnNewButton)))
+							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -315,7 +332,7 @@ public class Visualizador extends JFrame {
 				}
 				if(top==2 & fenetre.getSelectedItem().equals("Carrusel")) {
 					ConectarSocket("21.4.13.149");
-				}
+				}enviarComando("St ALL 0");
 				if(top==1 & fenetre.getSelectedItem().equals("ATHS")) {
 					ConectarSocket("21.4.14.139");
 				}
@@ -470,7 +487,18 @@ public class Visualizador extends JFrame {
 			if(top==2 & fenetre.getSelectedItem().equals("Linea_Entrada")) {
 				ip="21.4.12.149";
 			}						
-		 
+			if(top==1 & fenetre.getSelectedItem().equals("Carrusel")) {
+				ip="21.4.13.139";
+			}
+			if(top==2 & fenetre.getSelectedItem().equals("Carrusel")) {
+				ip="21.4.13.149";
+			}
+			if(top==1 & fenetre.getSelectedItem().equals("ATHS")) {
+				ip="21.4.14.139";
+			}
+			if(top==2 & fenetre.getSelectedItem().equals("ATHS")) {
+				ip="21.4.14.149";
+			}									 
 		 //Paquete
 		 DatagramPacket paquete;
 			 //PPC Linea de entrada 21.4.12.149
@@ -524,7 +552,8 @@ public class Visualizador extends JFrame {
 	 }
 	 public void disconnect() {
 		this.setFlagDisconnect(1);
-		enviarComando("");
+		enviarComando("ST ALL 0");
+		System.out.println("enviado ST ALL 0");
 		socket=null;
 	 }
 	 
@@ -599,11 +628,16 @@ public class Visualizador extends JFrame {
 		    "Seleccione Modulo");
 
 		 	System.out.println("El usuario ha elegido "+selModulo);
-		 	this.combo_Modulos.addItem(selModulo);
+
+		     Modulo mod = (Modulo)selModulo;
+			 enviarComando("ST "+mod.nombre+ " +ffffff");
+			 System.out.println("Activado modulo "+ mod);
+		 	 this.combo_Modulos.addItem(mod);
+		 	
 		 	return (Modulo)selModulo;
 	 }
 	 
-	 //Inicializa el Vector de consultas registrable, leyendolo del fichero de registro serial
+	 //Inicializa el Vector de consultas 
 	 private void initVectorConsultas(){
 		 //pendiente implementacion Leer registro consultas
 		 catalogoConsultas = new ConcurrentHashMap<String,Consulta>();
@@ -620,6 +654,7 @@ public class Visualizador extends JFrame {
 		 // el icono sera un iterrogante
 		    //borra el combo de modulos activos
 		 	//crea una nueva entrada de consulta en el registro de consultas
+		 	
 		 	Consulta consulta = new Consulta();
 		 	consulta.setNameConsulta(nameConsulta);
 		 	consulta.setFiltro("");
@@ -627,6 +662,7 @@ public class Visualizador extends JFrame {
 		 	consulta.setModulosActivos(vModulos);
 		 	catalogoConsultas.put(nameConsulta, consulta);
 		 	combo_Consultas.removeAllItems();
+		 	enviarComando("ST ALL 0");
 		 	filter.setText("");
 		 	int index = 0;int indexComp=0;
 		 	String item;
@@ -643,11 +679,16 @@ public class Visualizador extends JFrame {
 	 //Actualiza estructuras de informacion consulta
 	 private void refreshObjectConsulta(String nameConsulta) {
 		 combo_Modulos.removeAllItems();
+		 enviarComando("ST ALL 0");
 		 filter.setText(catalogoConsultas.get(nameConsulta).getFiltro());
 		 Vector vModulos = catalogoConsultas.get(nameConsulta).getModulosActivos();
 		 Iterator it = vModulos.iterator();
+		
 		 while(it.hasNext()) {
-			 combo_Modulos.addItem(it.next());
+			 Modulo mod =(Modulo)it.next() ;
+			 combo_Modulos.addItem(mod);
+			 enviarComando("ST "+mod.nombre+ " +ffffff");
+			 System.out.println("Activado modulo "+ mod);
 		 }
 		 //Pendiente Actualizar envio comando modulos activos
 		 //Actualizar array masks
@@ -686,15 +727,39 @@ public class Visualizador extends JFrame {
 	 //Borra la consulta actual al registro de consultas y refresca
 	 //estructuras y filtros
 	 private void borrarConsultaActual(String nameConsulta) {
+		 
+		 Iterator iMods = (catalogoConsultas.get(nameConsulta)).modulosActivos.iterator();
+		 while(iMods.hasNext()) {
+			 Modulo mod = (Modulo)iMods.next();
+			 borrarModuloActual(nameConsulta,mod);
+		 }
 		 combo_Consultas.removeItem(nameConsulta);
 		 combo_Consultas.setSelectedIndex(-1);
-		 combo_Modulos.removeAllItems();
+		 
 		 filter.setText("");
 
 		 catalogoConsultas.remove(nameConsulta);
 
-		 
 		 makeCatalogFilter("");
+	 }
+	 
+	 //Borra el modulo actual seleccionado de la consulta seleccionada actual y lo
+	 //desactiva
+	 private void borrarModuloActual(String nameConsulta,Modulo modSelected) {
+		 Consulta consultaSelected = catalogoConsultas.get(nameConsulta);
+		 if (consultaSelected==null)return;
+		 
+		 Vector<Modulo> modulosConsulta = consultaSelected.getModulosActivos();
+		 if(modulosConsulta.contains(modSelected)) {
+			 int index = modulosConsulta.indexOf(modSelected);
+			 modulosConsulta.remove(index);
+			 combo_Modulos.removeItem(modSelected);
+			 
+			 //enviar anulacion modulo activo a socket system
+			 enviarComando("ST "+modSelected.nombre+" 0");
+			 
+			 System.out.println("desactivado modulo:"+modSelected);
+		 }
 	 }
 	 
 	 //Serializa el objeto catalogoConsultas para conservar definiciones consultas
@@ -739,7 +804,7 @@ public class Visualizador extends JFrame {
 		            
 		            System.out.println("cargado catalogoConsultas ...");
 		        }catch (Exception e1){
-		           e1.printStackTrace();
+		           //e1.printStackTrace();
 		           this.initVectorConsultas();
 		           
 		        }
