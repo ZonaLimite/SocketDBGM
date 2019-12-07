@@ -209,7 +209,8 @@ public class Visualizador extends JFrame {
 			//Selecionar la nueva consulta
 			public void itemStateChanged(ItemEvent arg0) {
 				
-				if (!(arg0.getItem()== null && arg0.getStateChange()==1))refreshObjectConsulta((String)arg0.getItem());
+				if (!(arg0.getItem()== null && arg0.getStateChange()==1))
+					refreshObjectConsulta((String)arg0.getItem());
 			}
 		});
 		
@@ -225,7 +226,7 @@ public class Visualizador extends JFrame {
 				
 			}
 		});
-		filter.setColumns(10);
+		filter.setColumns(10);		 
 		
 		JButton button_5 = new JButton("GUARDAR");
 		button_5.addActionListener(new ActionListener() {
@@ -680,7 +681,7 @@ public class Visualizador extends JFrame {
 	 private void refreshObjectConsulta(String nameConsulta) {
 		 combo_Modulos.removeAllItems();
 		 enviarComando("ST ALL 0");
-		 filter.setText(catalogoConsultas.get(nameConsulta).getFiltro());
+
 		 Vector vModulos = catalogoConsultas.get(nameConsulta).getModulosActivos();
 		 Iterator it = vModulos.iterator();
 		
@@ -692,6 +693,7 @@ public class Visualizador extends JFrame {
 		 }
 		 //Pendiente Actualizar envio comando modulos activos
 		 //Actualizar array masks
+		 filter.setText(catalogoConsultas.get(nameConsulta).getFiltro());		 
 		 catalogFilter=makeCatalogFilter(filter.getText());
 		 System.out.println("Refrescado objeto consulta");
 	 }
@@ -753,13 +755,12 @@ public class Visualizador extends JFrame {
 		 if(modulosConsulta.contains(modSelected)) {
 			 int index = modulosConsulta.indexOf(modSelected);
 			 modulosConsulta.remove(index);
-			 combo_Modulos.removeItem(modSelected);
-			 
-			 //enviar anulacion modulo activo a socket system
-			 enviarComando("ST "+modSelected.nombre+" 0");
-			 
-			 System.out.println("desactivado modulo:"+modSelected);
 		 }
+		 combo_Modulos.removeItem(modSelected);
+		 //enviar anulacion modulo activo a socket system
+		 enviarComando("ST "+modSelected.nombre+" 0");
+         System.out.println("desactivado modulo:"+modSelected);
+		 
 	 }
 	 
 	 //Serializa el objeto catalogoConsultas para conservar definiciones consultas
