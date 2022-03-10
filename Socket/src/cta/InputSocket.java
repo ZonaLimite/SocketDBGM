@@ -11,7 +11,7 @@ import java.net.*;
  
  private Visualizador vis;
 
- //Entrada principal
+ //Entrada principal SOCKET
  public static void main(String[] args) {
 	 InputSocket iSocket = new InputSocket();
 		
