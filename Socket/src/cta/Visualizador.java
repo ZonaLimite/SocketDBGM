@@ -127,7 +127,7 @@ public class Visualizador extends JFrame {
 	public Visualizador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 952, 655);
+		setBounds(100, 100, 952, 864);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -167,17 +167,16 @@ public class Visualizador extends JFrame {
 					.addContainerGap()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 493, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(panel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(69, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		
 		JButton button_3 = new JButton("NEW");
@@ -430,10 +429,10 @@ public class Visualizador extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE))
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addGap(390)
 							.addComponent(btnClear)))
@@ -444,8 +443,8 @@ public class Visualizador extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(0))
 		);
