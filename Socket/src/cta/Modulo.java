@@ -26,7 +26,7 @@ public class Modulo implements Serializable {
 		this.mask = mask;
 	}
 	public String toString() {
-		return descripcion+"("+this.getMask()+")";
+		return this.getDescripcion()+'('+this.getMask()+')';
 		
 	}
 	

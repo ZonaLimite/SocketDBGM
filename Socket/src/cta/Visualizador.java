@@ -66,7 +66,7 @@ public class Visualizador extends JFrame {
 	private JTextField textField;
 	private JTextField filter;
 	private JTextArea textArea;
-	private JComboBox fenetre;
+	private JComboBox comboSistemas;
 	private JSpinner spinner ;
 	private JComboBox combo_Consultas;
 	private JComboBox combo_Modulos;
@@ -321,22 +321,22 @@ public class Visualizador extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int top = (int)spinner.getValue();
-				if(top==1 & fenetre.getSelectedItem().equals("Linea_Entrada")) {
+				if(top==1 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
 					ConectarSocket("21.4.12.139");
 				}
-				if(top==2 & fenetre.getSelectedItem().equals("Linea_Entrada")) {
+				if(top==2 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
 					ConectarSocket("21.4.12.149");
 				}	
-				if(top==1 & fenetre.getSelectedItem().equals("Carrusel")) {
+				if(top==1 & comboSistemas.getSelectedItem().equals("Carrusel")) {
 					ConectarSocket("21.4.13.139");
 				}
-				if(top==2 & fenetre.getSelectedItem().equals("Carrusel")) {
+				if(top==2 & comboSistemas.getSelectedItem().equals("Carrusel")) {
 					ConectarSocket("21.4.13.149");
 				}enviarComando("St ALL 0");
-				if(top==1 & fenetre.getSelectedItem().equals("ATHS")) {
+				if(top==1 & comboSistemas.getSelectedItem().equals("ATHS")) {
 					ConectarSocket("21.4.14.139");
 				}
-				if(top==2 & fenetre.getSelectedItem().equals("ATHS")) {
+				if(top==2 & comboSistemas.getSelectedItem().equals("ATHS")) {
 					ConectarSocket("21.4.14.149");
 				}								
 				
@@ -353,7 +353,7 @@ public class Visualizador extends JFrame {
 		button_1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		
 		String[] fenetreStrings = { "Linea_Entrada", "Carrusel", "ATHS" };
-		fenetre = new JComboBox(fenetreStrings);
+		comboSistemas = new JComboBox(fenetreStrings);
 		
 		comando = new JTextField();
 		comando.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -387,7 +387,7 @@ public class Visualizador extends JFrame {
 							.addGap(81)
 							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 							.addGap(12)
-							.addComponent(fenetre, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboSistemas, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addGap(2)
 							.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
@@ -414,7 +414,7 @@ public class Visualizador extends JFrame {
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addGap(5)
 							.addComponent(label_1))
-						.addComponent(fenetre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(comboSistemas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(6)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addComponent(button_2)
@@ -470,7 +470,7 @@ public class Visualizador extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		//Inicializar estructuras de datos
-		this.modulosRegistrables=this.initVectorModules();
+		this.modulosRegistrables=this.initVectorModules(this.comboSistemas.getSelectedItem()+".csv");
 		//this.initVectorConsultas();
 		reloadCatalogoConsultas();
 		
@@ -481,22 +481,22 @@ public class Visualizador extends JFrame {
 		 byte[] mensaje_bytes = new byte[256];
 		 String ip=null;
 			int top = (int)spinner.getValue();
-			if(top==1 & fenetre.getSelectedItem().equals("Linea_Entrada")) {
+			if(top==1 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
 				ip="21.4.12.139";
 			}
-			if(top==2 & fenetre.getSelectedItem().equals("Linea_Entrada")) {
+			if(top==2 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
 				ip="21.4.12.149";
 			}						
-			if(top==1 & fenetre.getSelectedItem().equals("Carrusel")) {
+			if(top==1 & comboSistemas.getSelectedItem().equals("Carrusel")) {
 				ip="21.4.13.139";
 			}
-			if(top==2 & fenetre.getSelectedItem().equals("Carrusel")) {
+			if(top==2 & comboSistemas.getSelectedItem().equals("Carrusel")) {
 				ip="21.4.13.149";
 			}
-			if(top==1 & fenetre.getSelectedItem().equals("ATHS")) {
+			if(top==1 & comboSistemas.getSelectedItem().equals("ATHS")) {
 				ip="21.4.14.139";
 			}
-			if(top==2 & fenetre.getSelectedItem().equals("ATHS")) {
+			if(top==2 & comboSistemas.getSelectedItem().equals("ATHS")) {
 				ip="21.4.14.149";
 			}									 
 		 //Paquete
@@ -583,10 +583,10 @@ public class Visualizador extends JFrame {
 	 }
 	 
 	 //Inicializa el vector de modulos tratables
-	 private Vector<Modulo> initVectorModules(){
+	 private Vector<Modulo> initVectorModules(String sistema){
 		Vector<Modulo> vModules=new Vector<Modulo>();
 		
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("cta/resources/CaptureBDGM3.csv");
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("cta/resources/"+sistema);
 		InputStreamReader isr = new InputStreamReader(inputStream);
 		BufferedReader fr = new BufferedReader(isr);
 		String [] datosModulo = new String[3];
@@ -603,6 +603,7 @@ public class Visualizador extends JFrame {
 				Modulo mod = new Modulo();
 				mod.setNombre(datosModulo[0]);
 				mod.setDescripcion(datosModulo[1]);
+				System.out.println("Descripcion :"+ mod.getDescripcion());
 				mod.setMask(datosModulo[2]);
 				vModules.add(mod);
 				
@@ -656,28 +657,39 @@ public class Visualizador extends JFrame {
 		 	//crea una nueva entrada de consulta en el registro de consultas
 		 	
 		 	Consulta consulta = new Consulta();
+		 	consulta.setSistemaConsulta((String) this.comboSistemas.getSelectedItem());
 		 	consulta.setNameConsulta(nameConsulta);
 		 	consulta.setFiltro("");
 		 	Vector<Modulo> vModulos = new Vector<Modulo>();
 		 	consulta.setModulosActivos(vModulos);
-		 	catalogoConsultas.put(nameConsulta, consulta);
+		 	//Indexamos la clave con el sistema al que pertenece
+		 	String keySistemaConsulta = this.comboSistemas.getSelectedItem()+":"+nameConsulta;
+		 	catalogoConsultas.put(keySistemaConsulta,consulta);
 		 	combo_Consultas.removeAllItems();
 		 	enviarComando("ST ALL 0");
 		 	filter.setText("");
-		 	int index = 0;int indexComp=0;
-		 	String item;
-		 	for (Enumeration<String> enumConsultas = catalogoConsultas.keys(); enumConsultas.hasMoreElements();){
-		 		combo_Consultas.addItem(item=(String)enumConsultas.nextElement());
-		 		if(item.equals(nameConsulta))indexComp=index;
-		 		index++;
-		 	}
-		 	combo_Consultas.setSelectedIndex(indexComp);
+	
+		 	refreshComboConsultas(nameConsulta);
 		 	
 		 	System.out.println("El usuario ha añadido "+nameConsulta);
 	 }
 	 
-	 //Actualiza estructuras de informacion consulta
-	 private void refreshObjectConsulta(String nameConsulta) {
+	 private void refreshComboConsultas(String sConsulta) {
+		 	int index = 0;int indexComp=0;
+		 	String item;
+		 	for (Enumeration<String> enumConsultas = catalogoConsultas.keys(); enumConsultas.hasMoreElements();){
+		 		StringTokenizer stEnumConsultas = new StringTokenizer(enumConsultas.nextElement(),":");
+		 		stEnumConsultas.nextToken();//no queremos la clave de sistema
+		 		combo_Consultas.addItem(item=stEnumConsultas.nextToken());
+		 		if(item.equals(sConsulta))indexComp=index;
+		 		index++;
+		 	}
+		 	combo_Consultas.setSelectedIndex(indexComp);
+	}
+
+	//Actualiza estructuras de informacion consulta
+	 private void refreshObjectConsulta(String sConsulta) {
+		 String nameConsulta=this.comboSistemas.getSelectedItem()+":"+sConsulta;
 		 combo_Modulos.removeAllItems();
 		 enviarComando("ST ALL 0");
 
@@ -702,7 +714,8 @@ public class Visualizador extends JFrame {
 	 //Guarda la consulta actual al registro de consultas
 	 //recoge los valores de texto en la caja filtro texto y 
 	 //añade el vector de modulos presente el combo modulosActivos
-	 private void guardarConsultaActual(String nameConsulta) {
+	 private void guardarConsultaActual(String sConsulta) {
+		String nameConsulta = this.comboSistemas.getSelectedItem()+":"+sConsulta;
 		String filtroTextoActual = filter.getText();
 		Vector<Modulo> vMod = new Vector();
 		for (int  n = 0; n < combo_Modulos.getItemCount();n++) {
@@ -719,7 +732,7 @@ public class Visualizador extends JFrame {
 				catalogoConsultas.put(nameConsulta, newConsulta);
 			}
 			System.out.println("Consulta guardada en memoria");
-			refreshObjectConsulta(nameConsulta);
+			refreshObjectConsulta(sConsulta);
 			catalogFilter=makeCatalogFilter(filter.getText());
 			//Aqui se puede serializar o no
 			salvarCatalogoConsultas();
@@ -727,8 +740,8 @@ public class Visualizador extends JFrame {
 	 
 	 //Borra la consulta actual al registro de consultas y refresca
 	 //estructuras y filtros
-	 private void borrarConsultaActual(String nameConsulta) {
-		 
+	 private void borrarConsultaActual(String sConsulta) {
+		 String nameConsulta = this.comboSistemas.getSelectedItem()+":"+sConsulta;
 		 Iterator iMods = (catalogoConsultas.get(nameConsulta)).modulosActivos.iterator();
 		 while(iMods.hasNext()) {
 			 Modulo mod = (Modulo)iMods.next();
@@ -746,7 +759,8 @@ public class Visualizador extends JFrame {
 	 
 	 //Borra el modulo actual seleccionado de la consulta seleccionada actual y lo
 	 //desactiva
-	 private void borrarModuloActual(String nameConsulta,Modulo modSelected) {
+	 private void borrarModuloActual(String sConsulta,Modulo modSelected) {
+		 String nameConsulta = this.comboSistemas.getSelectedIndex()+":"+sConsulta;
 		 Consulta consultaSelected = catalogoConsultas.get(nameConsulta);
 		 if (consultaSelected==null)return;
 		 
@@ -808,11 +822,9 @@ public class Visualizador extends JFrame {
 		           this.initVectorConsultas();
 		           
 		        }
-	        Enumeration enumKeys = catalogoConsultas.keys();
-	        
-	        for(Enumeration e =catalogoConsultas.keys();e.hasMoreElements(); ) {
-	        	combo_Consultas.addItem(catalogoConsultas.get(e.nextElement()).toString());
+	      
+	        this.refreshComboConsultas("");//No nos situamos sobre ningun item en particular al init
 	        	
-	        }
+	        
 	 }
 }
