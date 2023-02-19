@@ -364,6 +364,7 @@ public class Visualizador extends JFrame {
 					combo_Consultas.removeAllItems();
 					filter.setText("");
 					refreshComboConsultas("");
+					modulosRegistrables=initVectorModules(comboSistemas.getSelectedItem()+".csv");
 				}
 		});
 		
