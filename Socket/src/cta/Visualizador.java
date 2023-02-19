@@ -207,9 +207,11 @@ public class Visualizador extends JFrame {
 		combo_Consultas.addItemListener(new ItemListener() {
 			//Selecionar la nueva consulta
 			public void itemStateChanged(ItemEvent arg0) {
-				
-				if (!(arg0.getItem()== null && arg0.getStateChange()==1))
-					refreshObjectConsulta((String)arg0.getItem());
+				System.out.println("El estado es :"+arg0.getStateChange()+" y el valor es:"+arg0.getItem().toString());
+				if (arg0.getStateChange()==ItemEvent.SELECTED) {
+						System.out.println("Entro");
+						refreshObjectConsulta((String)arg0.getItem());
+				}
 			}
 		});
 		
@@ -354,6 +356,17 @@ public class Visualizador extends JFrame {
 		
 		String[] fenetreStrings = { "Linea_Entrada", "Carrusel", "ATHS" };
 		comboSistemas = new JComboBox(fenetreStrings);
+		comboSistemas.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (!(arg0.getItem()== null && arg0.getStateChange()==1))
+					enviarComando("ST ALL 0");
+					combo_Modulos.removeAllItems();
+					combo_Consultas.removeAllItems();
+					filter.setText("");
+					refreshComboConsultas("");
+				}
+		});
+		
 		
 		comando = new JTextField();
 		comando.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -617,7 +630,7 @@ public class Visualizador extends JFrame {
 	 }
 	 
 	 //Muestra cuadro eleccion modulo activable
-	 private Modulo dialogAddModulo() {
+	 private void dialogAddModulo() {
 		// Con JCombobox
 		 Object selModulo = JOptionPane.showInputDialog(
 		    contentPane,
@@ -629,13 +642,14 @@ public class Visualizador extends JFrame {
 		    "Seleccione Modulo");
 
 		 	System.out.println("El usuario ha elegido "+selModulo);
-
-		     Modulo mod = (Modulo)selModulo;
-			 enviarComando("ST "+mod.nombre+ " +ffffff");
-			 System.out.println("Activado modulo "+ mod);
-		 	 this.combo_Modulos.addItem(mod);
-		 	
-		 	return (Modulo)selModulo;
+		 	if(selModulo != null) {
+		 		Modulo mod = (Modulo)selModulo;
+		 		enviarComando("ST "+mod.nombre+ " +ffffff");
+		 		System.out.println("Activado modulo "+ mod);
+		 		this.combo_Modulos.addItem(mod);
+		 	}
+		 	return;
+		 	//return (Modulo)selModulo;
 	 }
 	 
 	 //Inicializa el Vector de consultas 
@@ -663,7 +677,7 @@ public class Visualizador extends JFrame {
 		 	Vector<Modulo> vModulos = new Vector<Modulo>();
 		 	consulta.setModulosActivos(vModulos);
 		 	//Indexamos la clave con el sistema al que pertenece
-		 	String keySistemaConsulta = this.comboSistemas.getSelectedItem()+":"+nameConsulta;
+		 	String keySistemaConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+nameConsulta;
 		 	catalogoConsultas.put(keySistemaConsulta,consulta);
 		 	combo_Consultas.removeAllItems();
 		 	enviarComando("ST ALL 0");
@@ -679,19 +693,23 @@ public class Visualizador extends JFrame {
 		 	String item;
 		 	for (Enumeration<String> enumConsultas = catalogoConsultas.keys(); enumConsultas.hasMoreElements();){
 		 		StringTokenizer stEnumConsultas = new StringTokenizer(enumConsultas.nextElement(),":");
-		 		stEnumConsultas.nextToken();//no queremos la clave de sistema
-		 		combo_Consultas.addItem(item=stEnumConsultas.nextToken());
-		 		if(item.equals(sConsulta))indexComp=index;
-		 		index++;
+		 		String keyCurrentSistema = stEnumConsultas.nextToken();
+		 		//Solo mostramos consultas filtradas para el sistema dado
+		 		if(keyCurrentSistema.equals(this.comboSistemas.getSelectedItem().toString())) {
+			 		combo_Consultas.addItem(item=stEnumConsultas.nextToken());
+			 		if(item.equals(sConsulta))indexComp=index;
+			 		index++;
+		 		}
 		 	}
-		 	combo_Consultas.setSelectedIndex(indexComp);
+		 	if(combo_Consultas.getItemCount()>0)combo_Consultas.setSelectedIndex(indexComp);
 	}
 
 	//Actualiza estructuras de informacion consulta
 	 private void refreshObjectConsulta(String sConsulta) {
-		 String nameConsulta=this.comboSistemas.getSelectedItem()+":"+sConsulta;
+		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		 combo_Modulos.removeAllItems();
 		 enviarComando("ST ALL 0");
+		 
 
 		 Vector vModulos = catalogoConsultas.get(nameConsulta).getModulosActivos();
 		 Iterator it = vModulos.iterator();
@@ -715,7 +733,7 @@ public class Visualizador extends JFrame {
 	 //recoge los valores de texto en la caja filtro texto y 
 	 //añade el vector de modulos presente el combo modulosActivos
 	 private void guardarConsultaActual(String sConsulta) {
-		String nameConsulta = this.comboSistemas.getSelectedItem()+":"+sConsulta;
+		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		String filtroTextoActual = filter.getText();
 		Vector<Modulo> vMod = new Vector();
 		for (int  n = 0; n < combo_Modulos.getItemCount();n++) {
@@ -741,26 +759,29 @@ public class Visualizador extends JFrame {
 	 //Borra la consulta actual al registro de consultas y refresca
 	 //estructuras y filtros
 	 private void borrarConsultaActual(String sConsulta) {
-		 String nameConsulta = this.comboSistemas.getSelectedItem()+":"+sConsulta;
+		 if(sConsulta==null)return;
+		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		 Iterator iMods = (catalogoConsultas.get(nameConsulta)).modulosActivos.iterator();
 		 while(iMods.hasNext()) {
 			 Modulo mod = (Modulo)iMods.next();
 			 borrarModuloActual(nameConsulta,mod);
 		 }
-		 combo_Consultas.removeItem(nameConsulta);
+		 combo_Consultas.removeItem(sConsulta);
 		 combo_Consultas.setSelectedIndex(-1);
-		 
+		
 		 filter.setText("");
 
 		 catalogoConsultas.remove(nameConsulta);
-
+		 salvarCatalogoConsultas();
+		 
 		 makeCatalogFilter("");
+		 System.out.println("El usuario ha eliminado la consulta : "+nameConsulta);
 	 }
 	 
 	 //Borra el modulo actual seleccionado de la consulta seleccionada actual y lo
 	 //desactiva
 	 private void borrarModuloActual(String sConsulta,Modulo modSelected) {
-		 String nameConsulta = this.comboSistemas.getSelectedIndex()+":"+sConsulta;
+		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		 Consulta consultaSelected = catalogoConsultas.get(nameConsulta);
 		 if (consultaSelected==null)return;
 		 
