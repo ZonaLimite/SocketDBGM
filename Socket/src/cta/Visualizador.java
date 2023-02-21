@@ -63,7 +63,7 @@ public class Visualizador extends JFrame {
 	private int flagDisconnect= 0;
 	private String[] catalogFilter = {""};
 	private JTextField comando;
-	private JTextField textField;
+	private JTextField textfield_Mask;
 	private JTextField filter;
 	private JTextArea textArea;
 	private JComboBox comboSistemas;
@@ -217,9 +217,9 @@ public class Visualizador extends JFrame {
 		
 		combo_Modulos= new JComboBox();
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Dialog", Font.PLAIN, 12));
-		textField.setColumns(10);
+		textfield_Mask = new JTextField();
+		textfield_Mask.setFont(new Font("Dialog", Font.PLAIN, 12));
+		textfield_Mask.setColumns(10);
 		
 		filter = new JTextField();
 		filter.addActionListener(new ActionListener() {
@@ -280,7 +280,7 @@ public class Visualizador extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 								.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addGap(41)
 							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
@@ -305,7 +305,7 @@ public class Visualizador extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(combo_Consultas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
@@ -322,27 +322,10 @@ public class Visualizador extends JFrame {
 		JButton button = new JButton("Conectar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int top = (int)spinner.getValue();
-				if(top==1 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
-					ConectarSocket("21.4.12.139");
-				}
-				if(top==2 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
-					ConectarSocket("21.4.12.149");
-				}	
-				if(top==1 & comboSistemas.getSelectedItem().equals("Carrusel")) {
-					ConectarSocket("21.4.13.139");
-				}
-				if(top==2 & comboSistemas.getSelectedItem().equals("Carrusel")) {
-					ConectarSocket("21.4.13.149");
-				}enviarComando("St ALL 0");
-				if(top==1 & comboSistemas.getSelectedItem().equals("ATHS")) {
-					ConectarSocket("21.4.14.139");
-				}
-				if(top==2 & comboSistemas.getSelectedItem().equals("ATHS")) {
-					ConectarSocket("21.4.14.149");
-				}								
+				connect();
+			}					
 				
-			}
+			
 		});
 		button.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		
@@ -359,12 +342,13 @@ public class Visualizador extends JFrame {
 		comboSistemas.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (!(arg0.getItem()== null && arg0.getStateChange()==1))
-					enviarComando("ST ALL 0");
 					combo_Modulos.removeAllItems();
 					combo_Consultas.removeAllItems();
 					filter.setText("");
+					disconnect();
 					refreshComboConsultas("");
 					modulosRegistrables=initVectorModules(comboSistemas.getSelectedItem()+".csv");
+					connect();
 				}
 		});
 		
@@ -564,6 +548,28 @@ public class Visualizador extends JFrame {
 				 System.err.println("Error : "+ e.toString());
 			 }
 	 }
+	 public void connect() {
+			int top = (int)spinner.getValue();
+			if(top==1 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
+				ConectarSocket("21.4.12.139");
+			}
+			if(top==2 & comboSistemas.getSelectedItem().equals("Linea_Entrada")) {
+				ConectarSocket("21.4.12.149");
+			}	
+			if(top==1 & comboSistemas.getSelectedItem().equals("Carrusel")) {
+				ConectarSocket("21.4.13.139");
+			}
+			if(top==2 & comboSistemas.getSelectedItem().equals("Carrusel")) {
+				ConectarSocket("21.4.13.149");
+			}enviarComando("St ALL 0");
+			if(top==1 & comboSistemas.getSelectedItem().equals("ATHS")) {
+				ConectarSocket("21.4.14.139");
+			}
+			if(top==2 & comboSistemas.getSelectedItem().equals("ATHS")) {
+				ConectarSocket("21.4.14.149");
+			}					
+	 }
+	 
 	 public void disconnect() {
 		this.setFlagDisconnect(1);
 		enviarComando("ST ALL 0");
@@ -599,7 +605,8 @@ public class Visualizador extends JFrame {
 	 //Inicializa el vector de modulos tratables
 	 private Vector<Modulo> initVectorModules(String sistema){
 		Vector<Modulo> vModules=new Vector<Modulo>();
-		
+
+		System.out.println("Accediendo a inputStream : cta/resources/" + sistema );
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("cta/resources/"+sistema);
 		InputStreamReader isr = new InputStreamReader(inputStream);
 		BufferedReader fr = new BufferedReader(isr);
