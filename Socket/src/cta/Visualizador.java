@@ -30,6 +30,8 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
@@ -808,35 +810,45 @@ public class Visualizador extends JFrame {
 	 //Serializa el objeto catalogoConsultas para conservar definiciones consultas
 	 private void salvarCatalogoConsultas() {
 			String ruta,fichero;
-			URL url = Visualizador.class.getClassLoader().getResource(".");
-			ruta = new File(url.getPath()).getAbsolutePath();
-			fichero=ruta+"/catalogoConsultas.def";//
+			URI url;
+			try {
+				url = Visualizador.class.getClassLoader().getResource(".").toURI();
+				ruta = new File(url.getPath()).getAbsolutePath();
+				fichero=ruta+"/catalogoConsultas.def";//
+				try
+			      {
+			          ObjectOutputStream oos = new ObjectOutputStream(
+			                  new FileOutputStream(new File(fichero)));
+			          
+			              oos.writeObject(this.catalogoConsultas);
+			              oos.close();
+			              System.out.println("Salvado catalogo");
+			      } catch (Exception e)
+			      {
+
+			           e.printStackTrace();
+			      }  
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 						
 			  
-			 try
-		      {
-		          ObjectOutputStream oos = new ObjectOutputStream(
-		                  new FileOutputStream(new File(fichero)));
-		          
-		              oos.writeObject(this.catalogoConsultas);
-		              oos.close();
-		              System.out.println("Salvado catalogo");
-		      } catch (Exception e)
-		      {
-
-		           e.printStackTrace();
-		      }  
+			 
 			  
 		  
 	 }
 	 
 	 private void reloadCatalogoConsultas() {
 			String ruta,fichero;
-			URL url = Visualizador.class.getClassLoader().getResource(".");
-						ruta = new File(url.getPath()).getAbsolutePath();
-						fichero=ruta+"/catalogoConsultas.def";//
-						System.out.println(fichero);
-	        try
+			URI url;
+			try {
+				url = Visualizador.class.getClassLoader().getResource(".").toURI();
+				ruta = new File(url.getPath()).getAbsolutePath();
+				fichero=ruta+"/catalogoConsultas.def";//
+				System.out.println(fichero);
+				try
 	        	{
 		            // Se crea un ObjectInputStream
 		            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichero));
@@ -851,7 +863,12 @@ public class Visualizador extends JFrame {
 		           this.initVectorConsultas();
 		           
 		        }
-	      
+  
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+						
 	        this.refreshComboConsultas("");//No nos situamos sobre ningun item en particular al init
 	        	
 	        
