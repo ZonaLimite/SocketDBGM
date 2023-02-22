@@ -71,7 +71,7 @@ public class Visualizador extends JFrame {
 	private JComboBox comboSistemas;
 	private JSpinner spinner ;
 	private JComboBox combo_Consultas;
-	private JComboBox combo_Modulos;
+	private JComboBox<Modulo> combo_Modulos;
 	
 	// Mapa contenedor de consultas registradas (memoria)
 	private ConcurrentHashMap<String, Consulta> catalogoConsultas;
@@ -642,6 +642,7 @@ public class Visualizador extends JFrame {
 	 //Muestra cuadro eleccion modulo activable
 	 private void dialogAddModulo() {
 		// Con JCombobox
+		 Modulo mod = null;
 		 Object selModulo = JOptionPane.showInputDialog(
 		    contentPane,
 		    "Seleccione modulo",
@@ -653,10 +654,12 @@ public class Visualizador extends JFrame {
 
 		 	System.out.println("El usuario ha elegido "+selModulo);
 		 	if(selModulo != null) {
-		 		Modulo mod = (Modulo)selModulo;
+		 		mod = (Modulo)selModulo;
 		 		enviarComando("ST "+mod.nombre+ " +ffffff");
+		 		mod.setMask("ffffff");
 		 		System.out.println("Activado modulo "+ mod);
 		 		this.combo_Modulos.addItem(mod);
+		 		this.combo_Modulos.setSelectedIndex(this.combo_Modulos.getItemCount()-1);
 		 	}
 		 	return;
 		 	//return (Modulo)selModulo;
@@ -747,7 +750,9 @@ public class Visualizador extends JFrame {
 		String filtroTextoActual = filter.getText();
 		Vector<Modulo> vMod = new Vector();
 		for (int  n = 0; n < combo_Modulos.getItemCount();n++) {
-			vMod.add((Modulo)combo_Modulos.getItemAt(n));
+			Modulo modElegido = combo_Modulos.getItemAt(n);
+			//if(textfield_Mask.getText())
+			vMod.add(modElegido);
 		}
 
 			Consulta newConsulta = new Consulta();
