@@ -2,7 +2,12 @@ package cta;
 
 import java.io.Serializable;
 
-public class Modulo implements Serializable {
+public class Modulo implements Serializable,Cloneable {
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
 	String nombre;
 	String descripcion;
 	String mask;

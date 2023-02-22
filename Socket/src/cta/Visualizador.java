@@ -129,7 +129,7 @@ public class Visualizador extends JFrame {
 	public Visualizador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 952, 864);
+		setBounds(100, 100, 976, 864);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -169,15 +169,16 @@ public class Visualizador extends JFrame {
 					.addContainerGap()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 520, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(43, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		
@@ -218,6 +219,12 @@ public class Visualizador extends JFrame {
 		});
 		
 		combo_Modulos= new JComboBox();
+		combo_Modulos.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				Modulo mod = (Modulo)arg0.getItem();
+				textfield_Mask.setText(mod.getMask());
+			}
+		});
 		
 		textfield_Mask = new JTextField();
 		textfield_Mask.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -256,6 +263,27 @@ public class Visualizador extends JFrame {
 			}
 		});
 		btnBorrar.setFont(new Font("Dialog", Font.PLAIN, 12));
+		
+		JButton boton_Set_Mask = new JButton("SET");
+		boton_Set_Mask.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setMaskModulo(textfield_Mask.getText());
+			}
+
+		});
+		
+		JButton boton_HelpMask = new JButton("HELP");
+		boton_HelpMask.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Modulo modHelping = (Modulo) combo_Modulos.getSelectedItem();
+				if(modHelping!=null) {
+					mostrarAyudaModulo(modHelping);
+				}
+
+			}
+		});
+		
+		JLabel lblNewLabel_1 = new JLabel("MASCARAS");
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -280,35 +308,47 @@ public class Visualizador extends JFrame {
 											.addComponent(btnBorrar))))
 								.addComponent(filter, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-								.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+								.addComponent(button_5, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_panel_3.createSequentialGroup()
+									.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(boton_HelpMask, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(boton_Set_Mask, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addGap(41)
-							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-							.addGap(76)
-							.addComponent(lblNewLabel)))
-					.addContainerGap(39, Short.MAX_VALUE))
+							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(58)
+							.addComponent(lblNewLabel)
+							.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+							.addComponent(lblNewLabel_1)
+							.addGap(24)))
+					.addGap(18))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addContainerGap(24, Short.MAX_VALUE)
+					.addContainerGap(25, Short.MAX_VALUE)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblConsultas)
-						.addComponent(lblNewLabel))
+						.addComponent(lblNewLabel)
+						.addComponent(lblNewLabel_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 							.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(boton_HelpMask)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(combo_Consultas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(combo_Consultas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+							.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addComponent(boton_Set_Mask)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 						.addComponent(button_5)
@@ -345,7 +385,7 @@ public class Visualizador extends JFrame {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (!(arg0.getItem()== null && arg0.getStateChange()==1))
 					combo_Modulos.removeAllItems();
-					combo_Consultas.removeAllItems();
+					
 					filter.setText("");
 					disconnect();
 					refreshComboConsultas("");
@@ -429,10 +469,10 @@ public class Visualizador extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addGap(390)
 							.addComponent(btnClear)))
@@ -441,8 +481,8 @@ public class Visualizador extends JFrame {
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
@@ -473,6 +513,13 @@ public class Visualizador extends JFrame {
 		this.modulosRegistrables=this.initVectorModules(this.comboSistemas.getSelectedItem()+".csv");
 		//this.initVectorConsultas();
 		reloadCatalogoConsultas();
+		
+	}
+
+	public void mostrarAyudaModulo(Modulo mod) {
+		//Consultas debe estar seleccionado en Comandos
+		enviarComando("sc "+ mod.getNombre()+ " he");
+		
 		
 	}
 
@@ -640,9 +687,9 @@ public class Visualizador extends JFrame {
 	 }
 	 
 	 //Muestra cuadro eleccion modulo activable
-	 private void dialogAddModulo() {
+	 private void dialogAddModulo(){
 		// Con JCombobox
-		 Modulo mod = null;
+		 Modulo miModuloClonado,clon = null;
 		 Object selModulo = JOptionPane.showInputDialog(
 		    contentPane,
 		    "Seleccione modulo",
@@ -654,16 +701,31 @@ public class Visualizador extends JFrame {
 
 		 	System.out.println("El usuario ha elegido "+selModulo);
 		 	if(selModulo != null) {
-		 		mod = (Modulo)selModulo;
-		 		enviarComando("ST "+mod.nombre+ " +ffffff");
-		 		mod.setMask("ffffff");
-		 		System.out.println("Activado modulo "+ mod);
-		 		this.combo_Modulos.addItem(mod);
-		 		this.combo_Modulos.setSelectedIndex(this.combo_Modulos.getItemCount()-1);
+		 		clon = (Modulo)selModulo;
+		 		try {
+					miModuloClonado = (Modulo) clon.clone();
+			 		//enviarComando("ST "+mod.nombre+ " +ffffff");
+			 		miModuloClonado.setMask("ffffff");
+			 		textfield_Mask.setText("FFFFFF");
+			 		System.out.println("Declarado modulo "+ miModuloClonado);
+			 		this.combo_Modulos.addItem(miModuloClonado);
+			 		this.combo_Modulos.setSelectedIndex(this.combo_Modulos.getItemCount()-1);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 		 	}
 		 	return;
 		 	//return (Modulo)selModulo;
 	 }
+
+	private void setMaskModulo(String text) {
+		Modulo modSelected = (Modulo) this.combo_Modulos.getSelectedItem();
+		modSelected.setMask(text);
+		//this.refreshComboConsultas("");
+			
+	}
 	 
 	 //Inicializa el Vector de consultas 
 	 private void initVectorConsultas(){
@@ -692,8 +754,7 @@ public class Visualizador extends JFrame {
 		 	//Indexamos la clave con el sistema al que pertenece
 		 	String keySistemaConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+nameConsulta;
 		 	catalogoConsultas.put(keySistemaConsulta,consulta);
-		 	combo_Consultas.removeAllItems();
-		 	enviarComando("ST ALL 0");
+		 			 	enviarComando("ST ALL 0");
 		 	filter.setText("");
 	
 		 	refreshComboConsultas(nameConsulta);
@@ -703,6 +764,7 @@ public class Visualizador extends JFrame {
 	 
 	 private void refreshComboConsultas(String sConsulta) {
 		 	int index = 0;int indexComp=0;
+		 	combo_Consultas.removeAllItems();
 		 	String item;
 		 	for (Enumeration<String> enumConsultas = catalogoConsultas.keys(); enumConsultas.hasMoreElements();){
 		 		StringTokenizer stEnumConsultas = new StringTokenizer(enumConsultas.nextElement(),":");
@@ -721,6 +783,7 @@ public class Visualizador extends JFrame {
 	 private void refreshObjectConsulta(String sConsulta) {
 		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		 combo_Modulos.removeAllItems();
+		 textfield_Mask.setText("");
 		 enviarComando("ST ALL 0");
 		 
 
@@ -729,8 +792,9 @@ public class Visualizador extends JFrame {
 		
 		 while(it.hasNext()) {
 			 Modulo mod =(Modulo)it.next() ;
+			
 			 combo_Modulos.addItem(mod);
-			 enviarComando("ST "+mod.nombre+ " +ffffff");
+			 enviarComando("ST "+ mod.nombre+ " "+ mod.getMask()); 
 			 System.out.println("Activado modulo "+ mod);
 		 }
 		 //Pendiente Actualizar envio comando modulos activos
@@ -746,12 +810,13 @@ public class Visualizador extends JFrame {
 	 //recoge los valores de texto en la caja filtro texto y 
 	 //añade el vector de modulos presente el combo modulosActivos
 	 private void guardarConsultaActual(String sConsulta) {
-		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
+		String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		String filtroTextoActual = filter.getText();
 		Vector<Modulo> vMod = new Vector();
 		for (int  n = 0; n < combo_Modulos.getItemCount();n++) {
 			Modulo modElegido = combo_Modulos.getItemAt(n);
-			//if(textfield_Mask.getText())
+			//if(textfield_Mask.getText()<>""){
+			
 			vMod.add(modElegido);
 		}
 
@@ -806,6 +871,7 @@ public class Visualizador extends JFrame {
 			 modulosConsulta.remove(index);
 		 }
 		 combo_Modulos.removeItem(modSelected);
+		 textfield_Mask.setText("");
 		 //enviar anulacion modulo activo a socket system
 		 enviarComando("ST "+modSelected.nombre+" 0");
          System.out.println("desactivado modulo:"+modSelected);
