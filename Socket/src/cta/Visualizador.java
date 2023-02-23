@@ -723,7 +723,9 @@ public class Visualizador extends JFrame {
 	private void setMaskModulo(String text) {
 		Modulo modSelected = (Modulo) this.combo_Modulos.getSelectedItem();
 		modSelected.setMask(text);
-		//this.refreshComboConsultas("");
+		int indexSelectedMod = this.combo_Modulos.getSelectedIndex();
+		refreshComboModulos(this.combo_Consultas.getSelectedItem().toString());
+		this.combo_Modulos.setSelectedIndex(indexSelectedMod);
 			
 	}
 	 
@@ -782,6 +784,16 @@ public class Visualizador extends JFrame {
 	//Actualiza estructuras de informacion consulta
 	 private void refreshObjectConsulta(String sConsulta) {
 		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
+		 refreshComboModulos(sConsulta);
+		 //Pendiente Actualizar envio comando modulos activos
+		 //Actualizar array masks
+		 filter.setText(catalogoConsultas.get(nameConsulta).getFiltro());		 
+		 catalogFilter=makeCatalogFilter(filter.getText());
+		 System.out.println("Refrescado objeto consulta");
+	 }
+	 
+	 private void refreshComboModulos(String sConsulta) {
+		 String nameConsulta = this.comboSistemas.getItemAt(this.comboSistemas.getSelectedIndex())+":"+sConsulta;
 		 combo_Modulos.removeAllItems();
 		 textfield_Mask.setText("");
 		 enviarComando("ST ALL 0");
@@ -797,16 +809,10 @@ public class Visualizador extends JFrame {
 			 enviarComando("ST "+ mod.nombre+ " "+ mod.getMask()); 
 			 System.out.println("Activado modulo "+ mod);
 		 }
-		 //Pendiente Actualizar envio comando modulos activos
-		 //Actualizar array masks
-		 filter.setText(catalogoConsultas.get(nameConsulta).getFiltro());		 
-		 catalogFilter=makeCatalogFilter(filter.getText());
-		 System.out.println("Refrescado objeto consulta");
-	 }
-	 
-	 
-	 
-	 //Guarda la consulta actual al registro de consultas
+		
+	}
+
+	//Guarda la consulta actual al registro de consultas
 	 //recoge los valores de texto en la caja filtro texto y 
 	 //añade el vector de modulos presente el combo modulosActivos
 	 private void guardarConsultaActual(String sConsulta) {
@@ -815,8 +821,6 @@ public class Visualizador extends JFrame {
 		Vector<Modulo> vMod = new Vector();
 		for (int  n = 0; n < combo_Modulos.getItemCount();n++) {
 			Modulo modElegido = combo_Modulos.getItemAt(n);
-			//if(textfield_Mask.getText()<>""){
-			
 			vMod.add(modElegido);
 		}
 
