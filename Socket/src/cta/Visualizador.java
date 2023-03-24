@@ -129,7 +129,7 @@ public class Visualizador extends JFrame {
 	public Visualizador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 976, 864);
+		setBounds(100, 100, 1090, 864);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -169,12 +169,12 @@ public class Visualizador extends JFrame {
 					.addContainerGap()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 520, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(43, Short.MAX_VALUE))
+					.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
@@ -300,28 +300,27 @@ public class Visualizador extends JFrame {
 											.addGap(6)
 											.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel_3.createSequentialGroup()
 											.addComponent(btnNewButton)
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(btnBorrar))))
-								.addComponent(filter, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+											.addComponent(btnBorrar))
+										.addComponent(combo_Modulos, 0, 278, Short.MAX_VALUE)))
+								.addComponent(filter, 442, 442, 442))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-								.addComponent(button_5, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+								.addComponent(boton_HelpMask, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+								.addComponent(button_5, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
 								.addGroup(Alignment.LEADING, gl_panel_3.createSequentialGroup()
 									.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(boton_HelpMask, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(boton_Set_Mask, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))))
+									.addComponent(boton_Set_Mask, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addGap(41)
 							.addComponent(lblConsultas, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 							.addGap(58)
 							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
 							.addComponent(lblNewLabel_1)
 							.addGap(24)))
 					.addGap(18))
@@ -329,7 +328,7 @@ public class Visualizador extends JFrame {
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addContainerGap(25, Short.MAX_VALUE)
+					.addContainerGap(13, Short.MAX_VALUE)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblConsultas)
 						.addComponent(lblNewLabel)
@@ -344,15 +343,16 @@ public class Visualizador extends JFrame {
 							.addComponent(boton_HelpMask)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(combo_Consultas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 							.addComponent(textfield_Mask, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-							.addComponent(boton_Set_Mask)))
+							.addComponent(boton_Set_Mask))
+						.addComponent(combo_Modulos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(button_5)
-						.addComponent(filter, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(filter, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		panel_3.setLayout(gl_panel_3);
 		
