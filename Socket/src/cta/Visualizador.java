@@ -1,4 +1,5 @@
 package cta;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -50,6 +51,14 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 
 public class Visualizador extends JFrame {
@@ -67,12 +76,11 @@ public class Visualizador extends JFrame {
 	private JTextField comando;
 	private JTextField textfield_Mask;
 	private JTextField filter;
-	private JTextArea textArea;
 	private JComboBox comboSistemas;
 	private JSpinner spinner ;
 	private JComboBox combo_Consultas;
 	private JComboBox<Modulo> combo_Modulos;
-	
+	private JTextArea textArea;
 	// Mapa contenedor de consultas registradas (memoria)
 	private ConcurrentHashMap<String, Consulta> catalogoConsultas;
 	
@@ -156,8 +164,7 @@ public class Visualizador extends JFrame {
 		});
 		btnClear.setFont(new Font("Dialog", Font.PLAIN, 12));
 		
-		JScrollPane scrollPane = new JScrollPane();
-		
+
 		
 		JPanel panel_2 = new JPanel();
 		
@@ -488,25 +495,43 @@ public class Visualizador extends JFrame {
 					.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(0))
 		);
-		
+	
 		textArea = new JTextArea();
+		textArea.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==2) {
+					System.out.println("Texto Seleccionado:"+textArea.getSelectedText());
+				}
+			}
+		});
+
 		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(textArea);
+		
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
-					.addGap(12))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 1040, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(24)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
 		);
+		
+
+	
+		//textArea.setMinimumSize(new Dimension(300, 300));
+
 		panel_1.setLayout(gl_panel_1);
+
 		contentPane.setLayout(gl_contentPane);
 		
 		//Inicializar estructuras de datos

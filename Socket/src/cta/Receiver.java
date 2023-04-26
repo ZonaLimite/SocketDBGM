@@ -3,17 +3,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.StringTokenizer;
 
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+
 public class Receiver implements Runnable {
 	private DatagramSocket mySocket=null;
 	private Visualizador vis;
 	private String[] catalogFilter;
 	private String sFilter;
-	
+	private SimpleAttributeSet attrs;
     public void run() {
     	String cadenaMensaje;
     	
     	do {
     		byte[] RecogerServidor_bytes = new byte[1024];
+    		attrs = new SimpleAttributeSet();
     		
     		try {
     			//Esperamos a recibir un paquete
@@ -31,8 +36,10 @@ public class Receiver implements Runnable {
      					String[] sArray = vis.getCatalogFilter();
      					//filtrar por catalogo de filtros texto
      					if((vis.getCatalogFilter())[0]=="") {
-							vis.getTextArea().append(cadenaMensaje);
-							vis.getTextArea().append(System.getProperty("line.separator"));
+							//vis.getTextArea().appendStringJTextPane(cadenaMensaje);
+     						//vis.getTextArea().getStyledDocument().insertString(vis.getTextArea().getStyledDocument().getLength(), cadenaMensaje, attrs);
+     						handlerWriteLine(cadenaMensaje);
+     						handlerWriteLine(System.getProperty("line.separator"));//vis.getTextArea().getStyledDocument().insertString(vis.getTextArea().getStyledDocument().getLength(), System.getProperty("line.separator"), attrs);
      					}else {
          					for(String sFilter:vis.getCatalogFilter()) {
              					//sFilter = vis.getFilter().getText();
@@ -62,14 +69,18 @@ public class Receiver implements Runnable {
    		 	}
     	} while (vis.getFlagDisconnect()==0);
     	mySocket = null;
-    	vis.getTextArea().append("Hilo Finalizado");
+    	handlerWriteLine("Hilo Finalizado");
 
     }
     public void handlerWriteLine(String cadena) {
     	    //Configuracion 1 
 			//Solo Imprimimos el paquete recibido a caja visualizador
-			vis.getTextArea().append(cadena);
-			vis.getTextArea().append(System.getProperty("line.separator"));
+			
+    	//appendStringJTextPane(vis.getTextArea(),cadena,attrs);
+			//appendStringJTextPane(vis.getTextArea(),System.getProperty("line.separator"),attrs);
+    	vis.getTextArea().append(cadena);
+    	vis.getTextArea().append(System.getProperty("line.separator"));
+    	
 			
 			//Configuracion 2 
 			// Imprimimos el paquete a visualizador y
@@ -77,6 +88,15 @@ public class Receiver implements Runnable {
 			
 			// Configuracion 3
 			// Dispatching evento clase movingIngeneryInverse
+    }
+    
+    public void appendStringJTextPane(JTextPane pane,String text,SimpleAttributeSet miAttrs ) {
+    	try {
+			pane.getStyledDocument().insertString(pane.getStyledDocument().getLength(), text, miAttrs);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public Receiver (DatagramSocket socket, Visualizador visualizador) {
