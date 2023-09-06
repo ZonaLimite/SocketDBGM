@@ -21,7 +21,7 @@ public class Receiver implements Runnable {
     		attrs = new SimpleAttributeSet();
     		
     		try {
-    			//Esperamos a recibir un paquete
+    			//EsperamoHilo Finalizado"s a recibir un paquete
     			DatagramPacket servPaquete = new DatagramPacket(RecogerServidor_bytes,1024);
     			mySocket.receive(servPaquete);
     			String cadena1024 = new String(RecogerServidor_bytes).trim();

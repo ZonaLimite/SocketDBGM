@@ -59,6 +59,7 @@ import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import javax.swing.JTabbedPane;
 
 
 public class Visualizador extends JFrame {
