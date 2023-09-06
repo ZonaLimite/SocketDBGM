@@ -31,7 +31,7 @@ public class Modulo implements Serializable,Cloneable {
 		this.mask = mask;
 	}
 	public String toString() {
-		return this.getNombre()+'('+this.getMask()+')';
+		return this.getNombre()+"("+ this.getDescripcion()+")->"+this.getMask();
 		
 	}
 	
